@@ -1,4 +1,4 @@
-name: Deploy Dashboard to GitHub Pages
+name: Build and Deploy Dashboard to GitHub Pages
 
 on:
   push:
@@ -7,22 +7,13 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  contents: write
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout Source
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -36,16 +27,15 @@ jobs:
         run: npm --prefix client ci
 
       - name: Build Dashboard
-        run: npm --prefix client run build
+        run: |
+          npm --prefix client run build
+          cp client/dist/index.html client/dist/404.html
+          touch client/dist/.nojekyll
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload Artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy to GitHub Pages Branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: 'client/dist'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./client/dist
+          publish_branch: gh-pages
+          force_orphan: true
