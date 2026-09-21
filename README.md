@@ -7,6 +7,7 @@
 [![Category](https://img.shields.io/badge/Category-Hardware%20%26%20Software-blue.svg?style=for-the-badge)](#)
 [![Theme](https://img.shields.io/badge/Theme-Blockchain%20%26%20Cybersecurity-purple.svg?style=for-the-badge)](#)
 [![PQC NIST](https://img.shields.io/badge/NIST%20PQC-FIPS%20203%20%7C%20204-emerald.svg?style=for-the-badge)](#)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-2ea44f.svg?style=for-the-badge&logo=github)](https://jaganbala2007.github.io/ubip-x/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](./LICENSE)
 
 <br/>
@@ -16,7 +17,8 @@
 
 ---
 
-### 🌐 Live Modes for SIH Judges:
+### 🌐 Live Dashboard & Evaluator Links:
+🚀 **[Launch Live Cloud Dashboard on GitHub Pages](https://jaganbala2007.github.io/ubip-x/)**  
 [⚡ 20-Step Guided SIH Demo (`/sih-demo`)](#-sih-2026-judge-evaluation-modes) • [📊 1-Screen Jury Command Matrix (`/judge-mode`)](#-sih-2026-judge-evaluation-modes) • [📖 Full Architecture Manual](./ARCHITECTURE.md) • [🔌 Hardware Pinout Guide](./HARDWARE_INTEGRATION.md)
 
 </div>
