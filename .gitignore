@@ -1,0 +1,55 @@
+# Dependencies
+node_modules/
+*/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Production Build Outputs
+dist/
+*/dist/
+build/
+*/build/
+out/
+.next/
+
+# Environment and Local Configurations
+.env
+.env.local
+.env.*.local
+*.env
+*.local
+
+# Database & Persistent Edge State
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+
+# Logs & Diagnostics
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS & Editor Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Temporary & Cache Files
+.cache/
+.parcel-cache/
+.eslintcache
+.turbo/
+tmp/
+scratch/

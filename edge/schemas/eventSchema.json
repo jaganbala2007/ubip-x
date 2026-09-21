@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UBIPPhysicalTelemetryEvent",
+  "description": "Strict canonical schema for physical hardware telemetry ingested by UBIP-X",
+  "type": "object",
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "pattern": "^EVT-[0-9]{6,}$"
+    },
+    "asset_id": {
+      "type": "string",
+      "pattern": "^ASSET-[0-9]{3,}$"
+    },
+    "rfid_tag": {
+      "type": "string",
+      "minLength": 4
+    },
+    "node_id": {
+      "type": "string",
+      "pattern": "^(ESP32|PI)-[0-9]{3,}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sequence_number": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "telemetry": {
+      "type": "object",
+      "properties": {
+        "temperature": {
+          "type": "number",
+          "minimum": -50,
+          "maximum": 150
+        },
+        "vibration": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 50
+        },
+        "gas_ppm": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5000
+        },
+        "humidity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "battery_voltage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "location": {
+          "type": "object",
+          "properties": {
+            "zone": { "type": "string" },
+            "lat": { "type": "number" },
+            "lng": { "type": "number" }
+          },
+          "required": ["zone"]
+        }
+      },
+      "required": ["temperature", "vibration", "gas_ppm", "location"]
+    },
+    "edge_signature": {
+      "type": "string"
+    },
+    "public_key": {
+      "type": "string"
+    },
+    "prev_event_hash": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "event_id",
+    "asset_id",
+    "node_id",
+    "timestamp",
+    "sequence_number",
+    "telemetry",
+    "edge_signature"
+  ]
+}

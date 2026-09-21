@@ -1,0 +1,396 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* ─── Dark Mode (Warm Titanium Design System) ─── */
+  :root, .dark {
+    --canvas: #09090B;
+    --surface: #111113;
+    --elevated: #18181B;
+    --muted: #27272A;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.16);
+
+    --text-primary: #FAFAF9;
+    --text-secondary: #A1A1AA;
+    --text-muted: #71717A;
+
+    /* RGB channels for Tailwind dynamic alpha */
+    --ubip-950: 7 11 20;
+    --ubip-900: 9 9 11;
+    --ubip-850: 17 17 19;
+    --ubip-800: 24 24 27;
+    --ubip-700: 39 39 42;
+    --ubip-600: 63 63 70;
+
+    --card-bg: linear-gradient(180deg, rgba(24, 24, 27, 0.94) 0%, rgba(17, 17, 19, 0.98) 100%);
+    --card-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.04) inset, 0 12px 40px -12px rgba(0, 0, 0, 0.7);
+    --card-shadow-hover: 0 1px 0 0 rgba(255, 255, 255, 0.08) inset, 0 20px 48px -16px rgba(0, 0, 0, 0.85);
+    --grid-line: rgba(255, 255, 255, 0.025);
+    --code-bg: #111113;
+
+    /* Brand Accents */
+    --sienna: #E8622C;
+    --sienna-light: #F0845C;
+    --sienna-glow: rgba(232, 98, 44, 0.25);
+
+    --green: #22C55E;
+    --green-light: #4ADE80;
+    --green-glow: rgba(34, 197, 94, 0.2);
+
+    --indigo: #6366F1;
+    --indigo-light: #818CF8;
+    --indigo-glow: rgba(99, 102, 241, 0.25);
+
+    --gold: #D4A017;
+    --gold-light: #EAB308;
+    --gold-glow: rgba(212, 160, 23, 0.3);
+
+    --saffron: #FF9933;
+    --chakra-navy: #002868;
+    --india-green: #138808;
+  }
+
+  /* ─── Light Mode (Executive Sovereign Titanium Canvas) ─── */
+  .light {
+    --canvas: #F4F4F6;
+    --surface: #FFFFFF;
+    --elevated: #FFFFFF;
+    --muted: #E4E4E7;
+    --border: rgba(0, 0, 0, 0.09);
+    --border-hover: rgba(0, 0, 0, 0.18);
+
+    --text-primary: #09090B;
+    --text-secondary: #4B5563;
+    --text-muted: #6B7280;
+
+    /* RGB channels for Tailwind dynamic alpha */
+    --ubip-950: 244 244 246;
+    --ubip-900: 255 255 255;
+    --ubip-850: 250 250 250;
+    --ubip-800: 244 244 246;
+    --ubip-700: 228 228 231;
+    --ubip-600: 212 212 216;
+
+    --card-bg: linear-gradient(180deg, #FFFFFF 0%, #FAFAFC 100%);
+    --card-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.9) inset, 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
+    --card-shadow-hover: 0 1px 0 0 rgba(255, 255, 255, 0.95) inset, 0 12px 32px -4px rgba(0, 0, 0, 0.10), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+    --grid-line: rgba(0, 0, 0, 0.045);
+    --code-bg: #F1F5F9;
+
+    /* High-contrast accents in light mode */
+    --sienna: #D9531E;
+    --sienna-light: #EA580C;
+    --sienna-glow: rgba(217, 83, 30, 0.18);
+
+    --green: #16A34A;
+    --green-light: #15803D;
+    --green-glow: rgba(22, 163, 74, 0.15);
+
+    --indigo: #4F46E5;
+    --indigo-light: #4338CA;
+    --indigo-glow: rgba(79, 70, 229, 0.18);
+
+    --gold: #B45309;
+    --gold-light: #92400E;
+    --gold-glow: rgba(180, 83, 9, 0.2);
+
+    --saffron: #E06D14;
+    --chakra-navy: #002868;
+    --india-green: #15803D;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: var(--canvas);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  ::selection {
+    background-color: var(--sienna);
+    color: #fff;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--canvas); }
+::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #71717A; }
+
+/* ─── National Tricolor Strip ─── */
+.tricolor-strip {
+  height: 3px;
+  background: linear-gradient(90deg, #FF9933 0%, #FFC78A 28%, #FFFFFF 50%, #7DD3A2 72%, #138808 100%);
+  box-shadow: 0 1px 8px rgba(255, 153, 51, 0.35);
+}
+
+/* ─── Warm Glass & Human Cards (Adaptive for Light & Dark) ─── */
+.glass-warm, .human-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(12px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-warm-hover:hover, .human-card-hover:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--card-shadow-hover);
+  transform: translateY(-2px);
+}
+
+.glass-warm-sienna:hover {
+  border-color: rgba(232, 98, 44, 0.4);
+  box-shadow: 0 16px 44px -12px rgba(232, 98, 44, 0.15), var(--card-shadow);
+  transform: translateY(-2px);
+}
+
+/* ─── Adaptive Badges ─── */
+.badge-sienna {
+  background: linear-gradient(135deg, rgba(232, 98, 44, 0.15), rgba(240, 132, 92, 0.06));
+  border: 1px solid rgba(232, 98, 44, 0.35);
+  color: var(--sienna-light);
+}
+
+.badge-green, .badge-emerald {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.14), rgba(74, 222, 128, 0.05));
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  color: var(--green-light);
+}
+
+.badge-indigo {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(129, 140, 248, 0.06));
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  color: var(--indigo-light);
+}
+
+.badge-gold {
+  background: linear-gradient(135deg, rgba(212, 160, 23, 0.18), rgba(234, 179, 8, 0.08));
+  border: 1px solid rgba(212, 160, 23, 0.4);
+  color: var(--gold-light);
+}
+
+.badge-saffron {
+  background: linear-gradient(135deg, rgba(255, 153, 51, 0.16), rgba(255, 120, 30, 0.07));
+  border: 1px solid rgba(255, 153, 51, 0.45);
+  color: var(--saffron);
+}
+
+.badge-chakra {
+  background: linear-gradient(135deg, rgba(0, 40, 104, 0.2), rgba(59, 130, 246, 0.1));
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  color: #60A5FA;
+}
+
+/* Light mode overrides for high-contrast badge legibility */
+.light .badge-sienna {
+  background: rgba(232, 98, 44, 0.10);
+  border-color: rgba(232, 98, 44, 0.45);
+  color: #C2410C;
+}
+
+.light .badge-green, .light .badge-emerald {
+  background: rgba(22, 163, 74, 0.10);
+  border-color: rgba(22, 163, 74, 0.4);
+  color: #15803D;
+}
+
+.light .badge-indigo {
+  background: rgba(79, 70, 229, 0.10);
+  border-color: rgba(79, 70, 229, 0.4);
+  color: #4338CA;
+}
+
+.light .badge-gold {
+  background: rgba(217, 119, 6, 0.12);
+  border-color: rgba(217, 119, 6, 0.45);
+  color: #92400E;
+}
+
+.light .badge-saffron {
+  background: rgba(234, 88, 12, 0.10);
+  border-color: rgba(234, 88, 12, 0.45);
+  color: #C2410C;
+}
+
+.light .badge-chakra {
+  background: rgba(0, 40, 104, 0.08);
+  border-color: rgba(0, 40, 104, 0.35);
+  color: #002868;
+}
+
+/* ─── Buttons ─── */
+.btn-sienna, .btn-saffron {
+  background: linear-gradient(135deg, #E8622C, #C2410C);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff !important;
+  font-weight: 700;
+  box-shadow: 0 4px 14px -2px rgba(232, 98, 44, 0.4), 0 1px 0 rgba(255,255,255,0.25) inset;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-sienna:hover, .btn-saffron:hover {
+  background: linear-gradient(135deg, #F0845C, #E8622C);
+  box-shadow: 0 8px 22px -4px rgba(232, 98, 44, 0.55), 0 1px 0 rgba(255,255,255,0.3) inset;
+  transform: translateY(-1px);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, #D4A017, #A16207);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #000 !important;
+  font-weight: 800;
+  box-shadow: 0 4px 14px -2px rgba(212, 160, 23, 0.4), 0 1px 0 rgba(255,255,255,0.3) inset;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-gold:hover {
+  background: linear-gradient(135deg, #EAB308, #D4A017);
+  box-shadow: 0 8px 22px -4px rgba(212, 160, 23, 0.6);
+  transform: translateY(-1px);
+}
+
+.btn-indigo {
+  background: linear-gradient(135deg, #6366F1, #4338CA);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff !important;
+  font-weight: 700;
+  box-shadow: 0 4px 14px -2px rgba(99, 102, 241, 0.4), 0 1px 0 rgba(255,255,255,0.2) inset;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-indigo:hover {
+  background: linear-gradient(135deg, #818CF8, #6366F1);
+  box-shadow: 0 8px 22px -4px rgba(99, 102, 241, 0.55);
+  transform: translateY(-1px);
+}
+
+/* ─── Grid Patterns ─── */
+.pattern-grid, .technical-grid {
+  background-size: 48px 48px;
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+}
+
+/* Login page animated mesh background */
+.login-mesh {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(232, 98, 44, 0.08), transparent),
+    radial-gradient(ellipse 50% 40% at 90% 80%, rgba(99, 102, 241, 0.06), transparent),
+    radial-gradient(ellipse 60% 50% at 10% 70%, rgba(34, 197, 94, 0.05), transparent);
+}
+.light .login-mesh {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(232, 98, 44, 0.05), transparent),
+    radial-gradient(ellipse 50% 40% at 90% 80%, rgba(99, 102, 241, 0.04), transparent),
+    radial-gradient(ellipse 60% 50% at 10% 70%, rgba(34, 197, 94, 0.04), transparent);
+}
+
+/* Ashoka Chakra spinner (login) */
+.chakra-spin {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 153, 51, 0.2);
+  border-top-color: var(--saffron);
+  border-right-color: var(--chakra-navy);
+  animation: spin-slow 3s linear infinite;
+}
+
+/* ─── Light Mode Text Precision ─── */
+.light h1:not([class*="text-"]),
+.light h2:not([class*="text-"]),
+.light h3:not([class*="text-"]),
+.light h4:not([class*="text-"]) {
+  color: var(--text-primary);
+}
+
+/* Card titles and headers inside light mode */
+.light .human-card .text-white,
+.light .glass-warm .text-white {
+  color: #09090B;
+}
+
+.light .human-card .text-slate-100,
+.light .human-card .text-slate-200,
+.light .glass-warm .text-slate-100,
+.light .glass-warm .text-slate-200 {
+  color: #18181B;
+}
+
+.light .human-card .text-slate-300,
+.light .glass-warm .text-slate-300 {
+  color: #3F3F46;
+}
+
+.light .human-card .text-slate-400,
+.light .glass-warm .text-slate-400 {
+  color: #52525B;
+}
+
+.light .human-card code,
+.light .glass-warm code {
+  color: #18181B;
+}
+
+/* ─── Keyframe Animations ─── */
+@keyframes float-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 12px var(--sienna-glow); }
+  50% { opacity: 0.7; box-shadow: 0 0 24px var(--sienna-glow); }
+}
+
+.animate-float-up { animation: float-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-fade-in { animation: fade-in 0.4s ease both; }
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2.5s infinite;
+}
+.light .animate-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.03) 50%, transparent 100%);
+  background-size: 200% 100%;
+}
+
+.animate-spin-slow { animation: spin-slow 12s linear infinite; }
+.animate-glow-pulse { animation: glow-pulse 2.2s infinite ease-in-out; }
+
+/* Stagger children */
+.stagger-children > * { animation: float-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 60ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 120ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 180ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 240ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 300ms; }
+.stagger-children > *:nth-child(7) { animation-delay: 360ms; }

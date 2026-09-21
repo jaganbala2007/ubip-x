@@ -1,0 +1,33 @@
+{
+  "name": "ubip-x",
+  "version": "1.0.0",
+  "description": "Universal Blockchain Intelligence & Physical Trust Platform - SIH 2026",
+  "main": "server/dist/index.js",
+  "scripts": {
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "dev": "concurrently \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
+    "build:server": "npm --prefix server run build",
+    "build:client": "npm --prefix client run build",
+    "build": "npm --prefix server run build && npm --prefix client run build",
+    "test:server": "npm --prefix server test",
+    "test": "npm --prefix server test",
+    "start": "npm --prefix server start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "blockchain",
+    "iot",
+    "edge",
+    "pqc",
+    "digital-twin",
+    "ai-trust",
+    "sih2026",
+    "nft",
+    "erc20"
+  ],
+  "author": "UBIP-X Team - SIH 2026",
+  "license": "MIT"
+}
