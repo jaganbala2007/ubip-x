@@ -228,6 +228,7 @@ export interface PhysicalTelemetryEvent {
   asset_id: string;
   rfid_tag: string;
   node_id: string;
+  device_id?: string;
   timestamp: string;
   sequence_number: number;
   telemetry: TelemetryData;

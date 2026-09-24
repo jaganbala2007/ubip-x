@@ -364,6 +364,9 @@ export const UBIPProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       event_id: `EVT-${Date.now()}`,
       asset_id: selectedAsset?.asset_id || 'IN-NTPC-DDR-01',
       device_id: 'ESP32-S3-001',
+      node_id: 'ESP32-S3-001',
+      rfid_tag: selectedAsset?.rfid_tag || 'RFID-NTPC-DDR-01',
+      sequence_number: Date.now() % 100000,
       timestamp: new Date().toISOString(),
       telemetry: simTelemetry,
       is_tampered: isTamper,
@@ -373,7 +376,12 @@ export const UBIPProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         ? '0xDEADBEEF48102938471928374910293847192837'
         : isThermal
           ? '0x7b11ce49182a00192e8841029cfa889211029410'
-          : '0x9482fba01948ef11488c9a12bc994018e2271891'
+          : '0x9482fba01948ef11488c9a12bc994018e2271891',
+      prev_event_hash: '0x1102948172938471928374910293847192837491',
+      edge_signature: '0x4f81a91823719283741928374910293847192837',
+      public_key: '0x04A2891B7F...',
+      ai_reasons: isTamper ? ['Signature mismatch', 'Kinematic anomaly'] : ['Telemetry nominal'],
+      sync_status: 'VERIFIED'
     };
 
     setLatestEvent(simEvent);
