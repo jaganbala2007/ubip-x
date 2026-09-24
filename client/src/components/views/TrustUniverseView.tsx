@@ -59,7 +59,7 @@ const PIPELINE_STAGES: PipelineStage[] = [
     plainLanguage: 'Statistical algorithms check if sensor readings are physically plausible before sending them to the ledger.',
     technicalDeepDive: {
       primitive: 'EWMA Statistical Z-Score Filter + Spatio-Temporal Velocity Engine',
-      specification: 'Evaluates kinematic variance $\\Delta v < 120\\text{ km/h}$; rejects sudden impossible geographic coordinate jumps.',
+      specification: 'Evaluates kinematic variance Δv < 120 km/h; rejects sudden impossible geographic coordinate jumps.',
       samplePayload: '{\n  "spatial_consistency": 0.994,\n  "temporal_drift_ms": 12,\n  "entropy_score": 0.88\n}',
       auditVerification: 'Physics-informed boundary check verified: Telemetry is within safe mechanical tolerances.'
     }
@@ -87,7 +87,7 @@ const PIPELINE_STAGES: PipelineStage[] = [
     plainLanguage: 'The signed reading is broadcast across multiple independent servers run by NTPC, Indian Railways, and AICTE.',
     technicalDeepDive: {
       primitive: 'IBFT 2.0 Byzantine Fault Tolerant Consensus with P2P libp2p gossipsub',
-      specification: 'Requires $2f+1$ validator attestations across 10 sovereign enclaves; achieves finality in $<450\\text{ ms}$.',
+      specification: 'Requires 2f + 1 validator attestations across 10 sovereign enclaves; achieves finality in < 450 ms.',
       samplePayload: '{\n  "proposer": "0xNIC_Apex_Node",\n  "quorum_signatures": 9,\n  "view_number": 10482,\n  "finality_latency_ms": 380\n}',
       auditVerification: 'Byzantine quorum verified: 9 of 10 independent validators signed block commitment.'
     }
@@ -129,7 +129,7 @@ const PIPELINE_STAGES: PipelineStage[] = [
     plainLanguage: 'The 3D model and enterprise dashboard update instantaneously with verified, audit-ready data.',
     technicalDeepDive: {
       primitive: 'WebSocket 1.0 Hz Bi-Directional Stream + 3D WebGL Kinematic Synchronization',
-      specification: 'Dispatches signed provenance events to SAP/ERP, SCADA, and real-time 3D spatial twins with $<15\\text{ ms}$ UI lag.',
+      specification: 'Dispatches signed provenance events to SAP/ERP, SCADA, and real-time 3D spatial twins with < 15 ms UI lag.',
       samplePayload: '{\n  "twin_state": "SYNCHRONIZED",\n  "audit_trail_id": "AUD-2026-NTPC-00104",\n  "operator_signature": "VALID"\n}',
       auditVerification: 'End-to-end provenance trail successfully verified across all 7 layers.'
     }

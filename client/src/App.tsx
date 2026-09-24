@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { UBIPProvider, useUBIP } from './context/UBIPContext';
+import { SetuProvider } from './context/SetuContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Header } from './components/layout/Header';
@@ -19,6 +20,7 @@ import { IdentityRegistryView } from './components/views/IdentityRegistryView';
 import { SecurityOperationsCenterView } from './components/views/SecurityOperationsCenterView';
 import { AttackLabView } from './components/views/AttackLabView';
 import { AIIntelligenceView } from './components/views/AIIntelligenceView';
+import { ASIAutonomousIntelligenceView } from './components/views/ASIAutonomousIntelligenceView';
 import { CognitiveOrchestratorView } from './components/views/CognitiveOrchestratorView';
 import { QuantumLabView } from './components/views/QuantumLabView';
 import { PQCCenterView } from './components/views/PQCCenterView';
@@ -73,6 +75,8 @@ const DashboardContent: React.FC = () => {
       case 'token-economy': return <TokenEconomyView />;
       case 'security-center': return <SecurityOperationsCenterView />;
       case 'security': return <SecurityOperationsCenterView />;
+      case 'asi-intelligence': return <ASIAutonomousIntelligenceView />;
+      case 'asi-matrix': return <ASIAutonomousIntelligenceView />;
       case 'ai-intelligence': return <AIIntelligenceView />;
       case 'cognitive-orchestrator': return <CognitiveOrchestratorView />;
       case 'offline-network': return <OfflineNetworkView />;
@@ -138,9 +142,11 @@ const DashboardContent: React.FC = () => {
 export function App() {
   return (
     <ThemeProvider>
-      <UBIPProvider>
-        <DashboardContent />
-      </UBIPProvider>
+      <SetuProvider>
+        <UBIPProvider>
+          <DashboardContent />
+        </UBIPProvider>
+      </SetuProvider>
     </ThemeProvider>
   );
 }

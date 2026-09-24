@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useUBIP, ActiveView } from '../../context/UBIPContext';
 import {
   LayoutDashboard,
@@ -13,7 +13,18 @@ import {
   Sparkles,
   Lock,
   Layers,
-  FileKey2
+  FileKey2,
+  Database,
+  Coins,
+  ShieldCheck,
+  Brain,
+  Wifi,
+  Scale,
+  History,
+  Sliders,
+  ChevronDown,
+  ChevronRight,
+  BrainCircuit
 } from 'lucide-react';
 
 interface NavItem {
@@ -26,13 +37,29 @@ interface NavItem {
 
 export const Sidebar: React.FC = () => {
   const { activeView, setActiveView } = useUBIP();
+  const [isExtendedOpen, setIsExtendedOpen] = useState(true);
 
   const primaryNavItems: NavItem[] = [
     { id: 'overview', label: 'National Cockpit', hindiLabel: 'राष्ट्रीय अवलोकन', icon: LayoutDashboard },
+    { id: 'asi-intelligence', label: 'Sovereign ASI Matrix', hindiLabel: 'प्रभुत्व ASI कोर', icon: BrainCircuit },
     { id: 'digital-twin', label: '3D Kinematic Mirror', hindiLabel: 'डिजिटल ट्विन', icon: Box },
     { id: 'pipeline', label: 'Proof & DLT Pipeline', hindiLabel: 'प्रमाणन पाइपलाइन', icon: Share2 },
     { id: 'security', label: 'Cyber Threat Lab', hindiLabel: 'साइबर सुरक्षा लैब', icon: ShieldAlert },
-    { id: 'sectors', label: 'Multi-Sector DPI', hindiLabel: 'क्षेत्रीय नेटवर्क (DPI)', icon: Globe2 }
+    { id: 'sectors', label: 'Multi-Sector DPI (8)', hindiLabel: 'क्षेत्रीय नेटवर्क (DPI)', icon: Globe2 }
+  ];
+
+  const secondaryNavItems: { id: ActiveView; label: string; icon: React.FC<{ className?: string }> }[] = [
+    { id: 'live-assets', label: 'Live Physical Assets', icon: Cpu },
+    { id: 'asset-passport', label: 'Asset Passport (NFT)', icon: FileKey2 },
+    { id: 'blockchain', label: 'Blockchain Explorer', icon: Database },
+    { id: 'identity', label: 'W3C DID Registry', icon: ShieldCheck },
+    { id: 'ai-intelligence', label: 'AI Cyber Risk Engine', icon: Brain },
+    { id: 'pqc-center', label: 'Post-Quantum PQC Lab', icon: Lock },
+    { id: 'token-economy', label: 'Token Economy & Gas', icon: Coins },
+    { id: 'offline-network', label: 'Offline P2P Mesh', icon: Wifi },
+    { id: 'dispute-center', label: 'Dispute Resolution', icon: Scale },
+    { id: 'audit-trail', label: 'Immutable Audit Trail', icon: History },
+    { id: 'settings', label: 'Platform Settings', icon: Sliders }
   ];
 
   const specialNavItems: NavItem[] = [
@@ -56,11 +83,7 @@ export const Sidebar: React.FC = () => {
           <div className="space-y-0.5">
             {primaryNavItems.map((item) => {
               const Icon = item.icon;
-              const isActive =
-                activeView === item.id ||
-                (item.id === 'pipeline' && (activeView === 'physical-evidence' || activeView === 'trust-graph' || activeView === 'trust-universe' || activeView === 'blockchain')) ||
-                (item.id === 'security' && (activeView === 'attack-lab' || activeView === 'ai-intelligence' || activeView === 'pqc-center' || activeView === 'security-center' || activeView === 'recovery-center' || activeView === 'dispute-center')) ||
-                (item.id === 'sectors' && activeView === 'sector-hub');
+              const isActive = activeView === item.id;
 
               return (
                 <button
@@ -145,6 +168,40 @@ export const Sidebar: React.FC = () => {
             })}
           </div>
         </div>
+
+        {/* Extended National Substrates (Collapsible) */}
+        <div>
+          <button
+            onClick={() => setIsExtendedOpen(!isExtendedOpen)}
+            className="w-full flex items-center justify-between px-3 py-1 mb-1 text-[10px] font-bold text-[var(--text-muted)] hover:text-[var(--text-primary)] uppercase tracking-widest font-mono transition-colors"
+          >
+            <span>Substrates & Modules</span>
+            {isExtendedOpen ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
+          </button>
+
+          {isExtendedOpen && (
+            <div className="space-y-0.5 pl-1">
+              {secondaryNavItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = activeView === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => setActiveView(item.id)}
+                    className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all ${
+                      isActive
+                        ? 'bg-[var(--elevated)] text-[var(--text-primary)] font-bold border border-[#E8622C]/30 shadow-sm'
+                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--muted)]/40'
+                    }`}
+                  >
+                    <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? 'text-[#E8622C]' : 'text-[var(--text-muted)]'}`} />
+                    <span className="truncate">{item.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Institutional Mission Badge */}
@@ -159,7 +216,7 @@ export const Sidebar: React.FC = () => {
           </span>
         </div>
         <p className="text-[var(--text-muted)] text-[11px] leading-relaxed">
-          National Sovereign Trust Substrate for <strong className="text-[var(--text-primary)]">NTPC Power Grid, RDSO Railways & Bharat Cold-Chain</strong>.
+          National Sovereign Trust Substrate for <strong className="text-[var(--text-primary)]">Power Grid, Railways, Defense & Civil Aviation</strong>.
         </p>
         <div className="pt-2 border-t border-[var(--border)] flex items-center justify-between text-[10px] font-mono">
           <span className="text-[var(--text-muted)]">Viksit Bharat @ 2047</span>

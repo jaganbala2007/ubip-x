@@ -3,6 +3,7 @@ import { useUBIP } from '../../context/UBIPContext';
 import { HeroRotorScene } from '../hero3d/HeroRotorScene';
 import { SpringNumber } from '../common/SpringNumber';
 import { motion, AnimatePresence } from 'framer-motion';
+import { DigitalTwinType } from '../../types';
 import { 
   ShieldCheck, 
   AlertTriangle,
@@ -22,7 +23,11 @@ import {
   CheckCircle2,
   ExternalLink,
   ShieldAlert,
-  Server
+  Server,
+  Truck,
+  Plane,
+  Shield,
+  BrainCircuit
 } from 'lucide-react';
 
 interface StageNode {
@@ -36,11 +41,86 @@ interface StageNode {
   proofDetails: string;
 }
 
+const TWIN_PROFILES: Record<DigitalTwinType, {
+  name: string;
+  organization: string;
+  sector: string;
+  asset_id: string;
+  velocityLabel: string;
+  velocityValue: string;
+  siliconUid: string;
+  subtitle: string;
+  baseTemp: number;
+  baseVib: number;
+  tempUnit: string;
+  vibUnit: string;
+}> = {
+  industry: {
+    name: '660MW Supercritical Turbine Rotor Unit-4',
+    organization: 'NTPC Dadri Super Thermal Power Station, UP',
+    sector: 'Energy & National Power Grid',
+    asset_id: 'IN-NTPC-DDR-01',
+    velocityLabel: 'Shaft Velocity',
+    velocityValue: '3,000.2 RPM',
+    siliconUid: '04:A2:89:1B:7F',
+    subtitle: 'Supercritical Turbine Shaft #4 • 3,000 RPM Synchronous Speed',
+    baseTemp: 42.4,
+    baseVib: 0.18,
+    tempUnit: '°C',
+    vibUnit: 'G'
+  },
+  train: {
+    name: 'High-Speed Bogie Axle Assembly #VB-204',
+    organization: 'RDSO Lucknow & Vande Bharat Hub, Northern Railway',
+    sector: 'Indian Railways Rolling Stock & Track',
+    asset_id: 'IN-RDSO-VB-204',
+    velocityLabel: 'Rail Speed',
+    velocityValue: '160.0 km/h',
+    siliconUid: '04:B8:31:4A:9C',
+    subtitle: 'Vande Bharat Bogie Axle #VB-204 • 160 km/h Track-Locked Kinematics',
+    baseTemp: 38.6,
+    baseVib: 0.14,
+    tempUnit: '°C Axle Box',
+    vibUnit: 'G Dynamic'
+  },
+  airplane: {
+    name: 'CFM LEAP-1A Turbofan Jet Engine Core #AI-902',
+    organization: 'DGCA & Air India Fleet Registry (Airbus A321neo)',
+    sector: 'Civil Aviation & Commercial Airline Fleet',
+    asset_id: 'IN-DGCA-CFM-902',
+    velocityLabel: 'Core N2 Speed',
+    velocityValue: '12,450 RPM',
+    siliconUid: '04:D2:77:8E:1F',
+    subtitle: 'CFM LEAP-1A High-Bypass Turbofan • Mach 0.82 Cruising FL360',
+    baseTemp: 592.0,
+    baseVib: 0.12,
+    tempUnit: '°C EGT Core',
+    vibUnit: 'G Fan Balance'
+  },
+  defense: {
+    name: 'LCA Tejas Mk-1A AESA Radar & Tactical Pod #UTTAM-992',
+    organization: 'DRDO Tactical Radar Lab & HAL Defence Wing',
+    sector: 'Defense Systems & Tactical Avionics',
+    asset_id: 'IN-DRDO-UTM-992',
+    velocityLabel: 'Azimuth Scan',
+    velocityValue: '60.0 RPM',
+    siliconUid: '04:F9:62:3C:88',
+    subtitle: 'DRDO UTTAM AESA Phased Array • IFF Mode-5 Level-2 Authenticated',
+    baseTemp: 48.2,
+    baseVib: 0.08,
+    tempUnit: '°C Avionics',
+    vibUnit: 'G Mil-Std'
+  }
+};
+
 export const OverviewView: React.FC = () => {
   const { assets, events, latestEvent, setActiveView, triggerScenario } = useUBIP();
+  const [activeTwin, setActiveTwin] = useState<DigitalTwinType>('industry');
   const [selectedStage, setSelectedStage] = useState<number | null>(null);
   const [copiedHash, setCopiedHash] = useState(false);
   const [isVerifyingState, setIsVerifyingState] = useState(false);
+
+  const activeProfile = TWIN_PROFILES[activeTwin];
 
   const asset1 = assets[0] || {
     asset_id: 'IN-NTPC-DDR-01',
@@ -173,12 +253,12 @@ export const OverviewView: React.FC = () => {
             </div>
 
             <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-              {asset1.name}
+              {activeProfile.name}
             </h1>
             <p className="text-xs sm:text-sm text-slate-300 mt-1 flex items-center gap-2">
-              <span className="text-[#FFA366] font-semibold">{asset1.organization}</span>
+              <span className="text-[#FFA366] font-semibold">{activeProfile.organization}</span>
               <span className="text-slate-600">•</span>
-              <span>Asset ID: <code className="text-slate-200 font-mono font-bold">{asset1.asset_id}</code></span>
+              <span>Asset ID: <code className="text-slate-200 font-mono font-bold">{activeProfile.asset_id}</code></span>
             </p>
           </div>
 
@@ -187,7 +267,7 @@ export const OverviewView: React.FC = () => {
             <button
               onClick={() => triggerScenario('nominal')}
               className="px-3.5 py-2 rounded-xl bg-[var(--elevated)] hover:bg-[var(--muted)] border border-[var(--border)] hover:border-[#00E599]/40 text-xs font-bold text-[var(--text-primary)] flex items-center gap-2 transition-all shadow-sm"
-              title="Reset telemetry to nominal 660MW operational limits"
+              title="Reset telemetry to nominal operational limits"
             >
               <CheckCircle2 className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#00E599]" />
               <span>Nominal Baseline</span>
@@ -196,7 +276,7 @@ export const OverviewView: React.FC = () => {
             <button
               onClick={() => triggerScenario('thermal-anomaly')}
               className="px-3.5 py-2 rounded-xl bg-[var(--elevated)] hover:bg-[var(--muted)] border border-[var(--border)] hover:border-amber-500/40 text-xs font-bold text-amber-700 dark:text-amber-300 flex items-center gap-2 transition-all shadow-sm"
-              title="Inject sudden 85°C thermal ramp to test auto-quarantine"
+              title="Inject sudden thermal ramp to test auto-quarantine"
             >
               <Flame className="w-3.5 h-3.5 text-amber-500" />
               <span>Thermal Anomaly</span>
@@ -228,7 +308,7 @@ export const OverviewView: React.FC = () => {
         {/* 3D Kinematic Mirror HUD */}
         <div className="lg:col-span-7 human-card p-5 flex flex-col justify-between relative overflow-hidden">
           {/* Header Controls */}
-          <div className="flex items-center justify-between z-10 mb-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 z-10 mb-2">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-lg bg-[#FF781E]/10 border border-[#FF781E]/30 flex items-center justify-center">
                 <Cpu className="w-4 h-4 text-[#FF781E]" />
@@ -238,12 +318,12 @@ export const OverviewView: React.FC = () => {
                   3D Kinematic Mirror & Physical Twin
                 </h3>
                 <span className="text-[10px] text-slate-400 font-mono">
-                  Supercritical Turbine Shaft #4 • 3,000 RPM Synchronous Speed
+                  {activeProfile.subtitle}
                 </span>
               </div>
             </div>
 
-            <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold font-mono uppercase tracking-wider ${
+            <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold font-mono uppercase tracking-wider self-start sm:self-auto ${
               isTampered
                 ? 'bg-rose-950/80 border border-rose-700 text-rose-300 animate-pulse'
                 : 'badge-emerald'
@@ -252,36 +332,91 @@ export const OverviewView: React.FC = () => {
             </span>
           </div>
 
+          {/* Twin Model Selector Bar */}
+          <div className="z-10 flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-black/40 border border-white/10 my-1">
+            <button
+              onClick={() => setActiveTwin('industry')}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                activeTwin === 'industry'
+                  ? 'bg-amber-500 text-black shadow-md'
+                  : 'text-slate-300 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <Zap className="w-3.5 h-3.5" />
+              <span>🏭 Industry (Turbine)</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTwin('train')}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                activeTwin === 'train'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'text-slate-300 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <Truck className="w-3.5 h-3.5" />
+              <span>🚆 Train (Vande Bharat)</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTwin('airplane')}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                activeTwin === 'airplane'
+                  ? 'bg-cyan-500 text-black shadow-md'
+                  : 'text-slate-300 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <Plane className="w-3.5 h-3.5" />
+              <span>✈️ Airplane (Turbofan)</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTwin('defense')}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                activeTwin === 'defense'
+                  ? 'bg-emerald-500 text-black shadow-md'
+                  : 'text-slate-300 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <Shield className="w-3.5 h-3.5" />
+              <span>🛡️ Military DRDO</span>
+            </button>
+          </div>
+
           {/* 3D Visualizer Canvas */}
           <div className="h-72 w-full rounded-xl overflow-hidden relative my-2 bg-gradient-to-b from-zinc-200/50 to-zinc-100/50 dark:from-[#0B0E14] dark:to-[#07090E] border border-[var(--border)] shadow-inner flex items-center justify-center">
             <HeroRotorScene 
+              activeTwin={activeTwin}
+              onSelectTwin={setActiveTwin}
               isTampered={isTampered}
               isVerifying={isVerifyingState}
-              temperature={telemetry.temperature}
-              vibration={telemetry.vibration}
+              temperature={isTampered ? 88.0 : activeProfile.baseTemp}
+              vibration={isTampered ? 1.45 : activeProfile.baseVib}
             />
 
             {/* Live HUD Floating Chips */}
             <div className="absolute top-3 left-3 bg-[var(--surface)]/90 backdrop-blur-md border border-[var(--border)] rounded-lg p-2.5 text-xs font-mono space-y-1 shadow-lg">
-              <div className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider">Shaft Velocity</div>
+              <div className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider">{activeProfile.velocityLabel}</div>
               <div className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-[#00E599] animate-pulse" />
-                <span>3,000.2 RPM</span>
+                <span>{activeProfile.velocityValue}</span>
               </div>
             </div>
 
             <div className="absolute top-3 right-3 bg-[var(--surface)]/90 backdrop-blur-md border border-[var(--border)] rounded-lg p-2.5 text-xs font-mono space-y-1 text-right shadow-lg">
               <div className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider">Silicon Node UID</div>
-              <div className="text-[11px] font-bold text-[#E8622C]">04:A2:89:1B:7F</div>
+              <div className="text-[11px] font-bold text-[#E8622C]">{activeProfile.siliconUid}</div>
             </div>
 
             <div className="absolute bottom-3 left-3 bg-[var(--surface)]/90 backdrop-blur-md border border-[var(--border)] rounded-lg px-3 py-1.5 text-[11px] font-mono flex items-center gap-3 shadow-lg">
               <span className="text-[var(--text-muted)]">Vibration:</span>
-              <span className="font-bold text-[var(--text-primary)]">{telemetry.vibration.toFixed(2)} G</span>
+              <span className="font-bold text-[var(--text-primary)]">
+                {isTampered ? '1.45 G (Critical)' : `${activeProfile.baseVib} ${activeProfile.vibUnit}`}
+              </span>
               <span className="text-zinc-400">|</span>
-              <span className="text-[var(--text-muted)]">Core Temp:</span>
-              <span className={`font-bold ${telemetry.temperature > 65 ? 'text-amber-500' : 'text-[#16A34A] dark:text-[#00E599]'}`}>
-                {telemetry.temperature.toFixed(1)}°C
+              <span className="text-[var(--text-muted)]">Sensor Temp:</span>
+              <span className={`font-bold ${isTampered ? 'text-rose-500' : 'text-[#16A34A] dark:text-[#00E599]'}`}>
+                {isTampered ? '88.0°C (Alert)' : `${activeProfile.baseTemp} ${activeProfile.tempUnit}`}
               </span>
             </div>
           </div>
@@ -399,6 +534,40 @@ export const OverviewView: React.FC = () => {
             </code>
           </div>
         </div>
+      </div>
+
+      {/* National ASI Autonomous Superintelligence Sentinel */}
+      <div className="rounded-2xl bg-gradient-to-r from-purple-950/40 via-[var(--surface)] to-indigo-950/30 border border-purple-500/30 p-4 sm:p-5 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5">
+          <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-400/30 flex items-center justify-center text-purple-300 shrink-0">
+            <BrainCircuit className="w-5 h-5 animate-pulse" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-sm font-extrabold text-white font-mono">
+                Bharat Sovereign ASI Matrix (Artificial Superintelligence)
+              </span>
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                LEVEL-5 AUTONOMY
+              </span>
+              <span className="text-[10px] text-green-400 font-mono flex items-center gap-1 font-bold">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-ping" />
+                0.84ms Reaction Time
+              </span>
+            </div>
+            <p className="text-xs text-[var(--text-secondary)] mt-0.5">
+              124,890 cross-sector sensor vectors correlated with 54 autonomous preemptive physical interventions and zero human latency.
+            </p>
+          </div>
+        </div>
+
+        <button
+          onClick={() => setActiveView('asi-intelligence')}
+          className="px-4 py-2 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 border border-purple-500/50 text-white text-xs font-mono font-bold flex items-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] shrink-0"
+        >
+          <span>Launch ASI Matrix</span>
+          <ChevronRight className="w-4 h-4 text-purple-300" />
+        </button>
       </div>
 
       {/* 7-Stage Physical-to-Digital Trust Lifecycle Pipeline */}

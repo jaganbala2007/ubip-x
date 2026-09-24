@@ -110,6 +110,7 @@ export type ActiveView =
   | 'identity'
   | 'pqc-center'
   | 'trust-graph'
+  | 'sectors'
   | 'sector-hub'
   | 'quantum-lab'
   | 'audit-trail'
@@ -118,7 +119,10 @@ export type ActiveView =
   | 'trust-universe'
   | 'asset-passport'
   | 'token-economy'
+  | 'security'
   | 'security-center'
+  | 'asi-intelligence'
+  | 'asi-matrix'
   | 'ai-intelligence'
   | 'cognitive-orchestrator'
   | 'offline-network'
@@ -129,7 +133,8 @@ export type ActiveView =
   | 'hero'
   | string;
 
-export type SectorType = 'land' | 'agriculture' | 'agri' | 'health' | 'education' | 'procurement' | 'defense' | 'energy' | 'manufacturing' | 'supply_chain' | string;
+export type DigitalTwinType = 'industry' | 'train' | 'airplane' | 'defense';
+export type SectorType = 'land' | 'agriculture' | 'agri' | 'health' | 'education' | 'procurement' | 'defense' | 'energy' | 'railways' | 'aviation' | 'space' | 'manufacturing' | 'supply_chain' | string;
 export type ConsensusType = 'POAT' | 'PBFT' | 'POS' | 'RAFT' | 'IBFT2' | string;
 
 export interface ValidatorNode {

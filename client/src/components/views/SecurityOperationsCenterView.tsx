@@ -82,7 +82,7 @@ const ATTACK_SCENARIOS: AttackScenario[] = [
     category: 'Temporal',
     description: 'Desynchronizes hardware RTC clock into future (+24 hours) to falsify SLA compliance window.',
     icon: Clock,
-    detectionMechanism: 'Byzantine validator NTP consensus timestamp window $\\pm 15\\text{ seconds}$.',
+    detectionMechanism: 'Byzantine validator NTP consensus timestamp window ± 15 seconds.',
     quarantineAction: 'Rejects block inclusion; forces edge hardware NTP resynchronization.'
   },
   {
